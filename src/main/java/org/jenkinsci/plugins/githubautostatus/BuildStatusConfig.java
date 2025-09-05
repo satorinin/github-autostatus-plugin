@@ -114,8 +114,8 @@ public class BuildStatusConfig extends GlobalConfiguration {
      * Gets the TTL (in minutes) used to cache rebuilt GitHub clients in GithubNotificationConfig.
      * Default: 55 minutes (slightly under 1 hour token expiry).
      */
-    public Integer getGithubCacheTtlMinutes() {
-        return githubCacheTtlMinutes == null ? 55 : githubCacheTtlMinutes;
+    public int getGithubCacheTtlMinutes() {
+        return githubCacheTtlMinutes == null ? 55 : githubCacheTtlMinutes.intValue();
     }
 
     /**

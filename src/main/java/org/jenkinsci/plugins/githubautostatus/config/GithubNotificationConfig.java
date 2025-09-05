@@ -336,28 +336,10 @@ public class GithubNotificationConfig {
             return null;
         }
 
-        // Rebuild a fresh GitHub client using the builder and latest credentials
-        try {
-            GitHubBuilder builder = new GitHubBuilder();
-            if (githubBuilder != null) {
-                // preserve endpoint if previously set
-                try {
-                    // best-effort: reuse the same endpoint by creating a new builder with the same endpoint
-                    // githubBuilder doesn't expose endpoint; if custom endpoint is required this may be set elsewhere
-                } catch (Exception ignored) {
-                }
-            }
-            if (apiUri != null) {
-                builder = builder.withEndpoint(apiUri);
-            }
-        } catch (Throwable t) {
-            // fallback: use original githubBuilder
-        }
-
-        // Use the stored githubBuilder where possible
-        GitHubBuilder usedBuilder = new GitHubBuilder();
-        if (githubBuilder != null) {
-            usedBuilder = githubBuilder;
+        // Use the stored githubBuilder where possible; construct a fresh builder otherwise
+        GitHubBuilder usedBuilder = (githubBuilder != null) ? githubBuilder : new GitHubBuilder();
+        if (apiUri != null) {
+            usedBuilder = usedBuilder.withEndpoint(apiUri);
         }
         usedBuilder = usedBuilder.withPassword(userName, password);
         GitHub github = usedBuilder.build();
